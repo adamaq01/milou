@@ -227,17 +227,20 @@ fun SourcesScreen(
         selectedManufacturerId?.let { manufacturerId ->
             AddConsoleDialog(
                 onDismiss = { viewModel.hideAddConsoleDialog() },
-                onConfirm = { name -> viewModel.addConsole(manufacturerId, name) }
+                onConfirm = { name, subPath -> viewModel.addConsole(manufacturerId, name, subPath) }
             )
         }
     }
     
     if (showEditConsoleDialog) {
         selectedConsoleId?.let { consoleId ->
+            val console = manufacturers.firstOrNull { it.id == selectedManufacturerId }?.consoles?.firstOrNull { it.id == consoleId }
             AddConsoleDialog(
+                name = console?.name,
+                subPath = console?.subPath,
                 consoleId = consoleId,
                 onDismiss = { viewModel.hideEditConsoleDialog() },
-                onConfirm = { name -> viewModel.updateConsole(consoleId, name) }
+                onConfirm = { name, subPath -> viewModel.updateConsole(consoleId, name, subPath) }
             )
         }
     }

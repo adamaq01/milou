@@ -9,5 +9,6 @@ data class Manufacturer(
 data class Console(
     val id: String,
     val name: String,
+    val subPath: String? = null,
     val urls: List<UrlEntry> = emptyList()
 )

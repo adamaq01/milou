@@ -8,12 +8,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AddConsoleDialog(
+    name: String? = null,
+    subPath: String? = null,
     consoleId: String? = null,
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String, String?) -> Unit
 ) {
-    var name by remember { mutableStateOf("") }
-    
+    var name by remember { mutableStateOf(name?:"") }
+    var subPath by remember { mutableStateOf(subPath?:"") }
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(if (consoleId == null) "Add Console" else "Edit Console") },
@@ -28,13 +31,23 @@ fun AddConsoleDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text("Enter console subpath (optional):")
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = subPath,
+                    onValueChange = { subPath = it },
+                    label = { Text("Subpath") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
                     if (name.isNotBlank()) {
-                        onConfirm(name.trim())
+                        onConfirm(name.trim(), if (subPath.isNotBlank()) subPath.trim() else null)
                         onDismiss()
                     }
                 },

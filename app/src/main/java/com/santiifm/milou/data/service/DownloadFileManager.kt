@@ -114,7 +114,7 @@ class DownloadFileManager @Inject constructor(
         val consoles = consoleRepository.getAllConsoles().first()
         val console = consoles.find { it.id == file.consoleId }
         return if (console != null) {
-            ConsoleFormatter.getConsoleDisplayName(console.id)
+            console.subPath ?: ConsoleFormatter.getConsoleDisplayName(console.id)
         } else {
             "Unknown"
         }

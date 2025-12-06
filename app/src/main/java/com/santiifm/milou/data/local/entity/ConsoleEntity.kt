@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey
 data class ConsoleEntity(
     @PrimaryKey val id: String, // e.g. "sony_psp"
     val name: String, // e.g. "PlayStation Portable"
+    val subPath: String? = null, // e.g. "PSP"
     val manufacturerId: String, // e.g. "sony"
     val urls: String // JSON array of UrlEntry objects as string
 )

@@ -60,6 +60,7 @@ class SourcesViewModel @Inject constructor(
                     Console(
                         id = console.id,
                         name = console.name,
+                        subPath = console.subPath,
                         urls = urls
                     )
                 }
@@ -213,11 +214,12 @@ class SourcesViewModel @Inject constructor(
         }
     }
     
-    fun addConsole(manufacturerId: String, name: String) {
+    fun addConsole(manufacturerId: String, name: String, subPath: String? = null) {
         viewModelScope.launch {
             val console = ConsoleEntity(
                 id = "${manufacturerId}_${name.lowercase().replace(" ", "_")}",
                 name = name,
+                subPath = subPath,
                 manufacturerId = manufacturerId,
                 urls = JSONArray().toString()
             )
@@ -329,11 +331,11 @@ class SourcesViewModel @Inject constructor(
         _selectedConsoleId.value = null
     }
     
-    fun updateConsole(consoleId: String, name: String) {
+    fun updateConsole(consoleId: String, name: String, subPath: String? = null) {
         viewModelScope.launch {
             val console = consoleDao.getConsoleById(consoleId)
             if (console != null) {
-                val updatedConsole = console.copy(name = name)
+                val updatedConsole = console.copy(name = name, subPath = subPath)
                 consoleDao.updateConsole(updatedConsole)
             }
         }
